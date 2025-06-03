@@ -131,8 +131,8 @@
       const A_pages = Array.from({ length: 20 }, (_, i) => `A${String(i + 1).padStart(2, '0')}_jp.html`);
       const B_pages = Array.from({ length: 20 }, (_, i) => `B${String(i + 1).padStart(2, '0')}_jp.html`);
 
-      const shuffledA = A_pages.sort(() => Math.random() - 0.5);
-      const shuffledB = B_pages.sort(() => Math.random() - 0.5);
+      const shuffledA = shuffleArray(A_pages);
+      const shuffledB = shuffleArray(B_pages);
 
       const fullQueue = [...shuffledA, ...shuffledB, "test02.html"];
 
@@ -141,7 +141,15 @@
       window.location.href = fullQueue[0];
     }
 
-    // 각 평가 페이지에서도 붙여 쓸 수 있는 공통 "다음 버튼" 이동 함수
+    function shuffleArray(array) {
+      const result = array.slice();
+      for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+      }
+      return result;
+    }
+
     function goToNextChat() {
       const queue = JSON.parse(localStorage.getItem('chatQueue') || '[]');
       let index = parseInt(localStorage.getItem('chatIndex') || '0');
